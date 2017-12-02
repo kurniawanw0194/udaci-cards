@@ -15,7 +15,7 @@ class AddCard extends Component {
   submit = () => {
     Keyboard.dismiss()
 
-    if (this.state.title !== '') {
+    if (this.state.title !== '' && this.state.question !== '') {
       const { title } = this.props.navigation.state.params
       addCardToDeck(title, { question: this.state.question, answer: this.state.answer })
         .then(() => {

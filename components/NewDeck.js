@@ -29,12 +29,12 @@ class NewDeck extends Component {
         Platform.OS === 'ios'
         ? AlertIOS.alert('Success', 'A new deck has been created!',
             [
-              {text: 'Dismiss', onPress: this.toHome}
+              {text: 'Dismiss', onPress: this.toDeckDetail}
             ])
         : ToastAndroid.show('A new deck has been created!', ToastAndroid.SHORT)
-        this.setState({ title: '' })
+        
         if (Platform.OS === 'android') {
-          this.toHome()
+          this.toDeckDetail()
         }
       })
     } else {
@@ -44,10 +44,17 @@ class NewDeck extends Component {
     }
   }
 
-  toHome = () => {
-    this.props.navigation.dispatch(NavigationActions.back({
-      key: 'NewDeck'
-    }))
+  toDeckDetail = () => {
+    this.props.navigation.navigate(
+      'DeckDetail',
+      {
+        title: this.state.title
+      }
+    )
+
+    this.setState({
+      title: ''
+    })
   }
 
   render() {

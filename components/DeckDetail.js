@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Platform, AlertIOS, ToastAndroid } from 'react-native'
 import { primaryColor, secondaryColor, white } from '../utils/colors'
 import { connect } from 'react-redux'
 
@@ -10,6 +10,24 @@ class DeckDetail extends Component {
 
     return {
       title
+    }
+  }
+
+  startQuiz = () => {
+    const { title } = this.props.navigation.state.params
+    const deck = this.props.decks[title]
+
+    if (deck.questions.length === 0) {
+      Platform.OS === 'ios'
+      ? AlertIOS.alert('Oops!', 'Please create the card(s) to start the quiz!')
+      : ToastAndroid.show('Oops! Please create the card(s) to start the quiz!', ToastAndroid.SHORT)
+    } else {
+      this.props.navigation.navigate(
+        'Quiz',
+        {
+          title: deck.title
+        }
+      )
     }
   }
 
@@ -37,13 +55,7 @@ class DeckDetail extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.secondaryButton}
-            onPress={() => this.props.navigation.navigate(
-              'Quiz',
-              {
-                title: deck.title,
-                screenKey: this.props.navigation.state.key
-              }
-            )}
+            onPress={this.startQuiz}
           >
             <Text style={styles.buttonText}>Start Quiz</Text>
           </TouchableOpacity>

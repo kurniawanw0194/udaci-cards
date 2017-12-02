@@ -39,8 +39,16 @@ class Quiz extends Component {
     })
   }
 
+  reset = () => {
+    this.setState({
+      index: 0,
+      status: 'question',
+      totalCorrect: 0
+    })
+  }
+
   render() {
-    const { title, screenKey } = this.props.navigation.state.params
+    const { title } = this.props.navigation.state.params
     const deck = this.props.decks[title]
     const { index, status, totalCorrect } = this.state
 
@@ -55,15 +63,15 @@ class Quiz extends Component {
           <Text style={styles.content}>Congratulations! You got {totalCorrect} of {index} correct answers.</Text>
           <TouchableOpacity
             style={[styles.button, {backgroundColor: primaryColor, marginTop: 16}]}
-            onPress={() => this.props.navigation.goBack()}
+            onPress={() => this.reset()}
           >
             <Text style={styles.buttonText}>Replay</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, {backgroundColor: secondaryColor, marginTop: 16}]}
-            onPress={() => this.props.navigation.goBack(screenKey)}
+            onPress={() => this.props.navigation.goBack()}
           >
-            <Text style={styles.buttonText}>Home</Text>
+            <Text style={styles.buttonText}>View Deck</Text>
           </TouchableOpacity>
         </View>
       )
